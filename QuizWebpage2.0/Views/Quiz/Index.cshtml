@@ -1,0 +1,24 @@
+﻿@model QuizWebpage2._0.Models.Quiz
+
+@{
+}
+
+<p>Topic: @Model.Topic</p>
+<p>Id Quiz: @Model.IdQuiz</p>
+
+@{
+    var r = Model.Rounds.FirstOrDefault(r => r.TopicRoundNum == ViewBag.Round);
+}
+
+<p>Quiz: @r.IdRound    Round Number: @r.TopicRoundNum</p>
+
+@foreach (var i in r.Images)
+{
+    <form method="post">
+        <input type="hidden" name="IdImage" value="@i.IdImage" />
+        <button type="submit">
+            <img src="@i.ImageUrl" style="max-height:250px;" />
+        </button>
+    </form>
+}
+

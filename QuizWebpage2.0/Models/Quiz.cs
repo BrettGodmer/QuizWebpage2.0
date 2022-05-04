@@ -4,5 +4,6 @@
     {
         public int IdQuiz { get; set; }
         public string Topic { get; set; }
+        public List<Round>? Rounds { get; set; }
     }
 }

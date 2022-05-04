@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuizWebpage2._0.Models;
 using System.Diagnostics;
+using System.Data.SqlClient;
+using Dapper;
 
 namespace QuizWebpage2._0.Controllers
 {
@@ -21,16 +23,17 @@ namespace QuizWebpage2._0.Controllers
 
         private List<Quiz> getAllQuizzes()
         {
-            var q = new List<Quiz>();
+            var cs = @"Server=tcp:bountydbserver.database.windows.net,1433;Initial Catalog=Bountydb;Persist Security Info=False;User ID=bountydbserver;Password=NhL*@59M72VsHZU;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            using (var con = new SqlConnection(cs))
+            {
+                con.Open();
 
-            q.Add(new Quiz { IdQuiz = 1, Topic = "Tom Bardy" });
-            q.Add(new Quiz { IdQuiz = 2, Topic = "Leaves" });
-            q.Add(new Quiz { IdQuiz = 3, Topic = "Ice cream" });
-            q.Add(new Quiz { IdQuiz = 4, Topic = "Poop" });
-            q.Add(new Quiz { IdQuiz = 5, Topic = "Cats" });
-            q.Add(new Quiz { IdQuiz = 6, Topic = "Dogs" });
+                var Quiz = con.Query<Quiz>("SELECT idTopic AS idQuiz, topic AS topic FROM Quiz").ToList();
 
-            return q;
+                con.Close();
+
+                return Quiz;
+            }
         }
 
         public IActionResult Privacy()
